@@ -5,7 +5,7 @@
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include "install_config.h"
-#include "debug/GfxDebugger.h"
+#include "graphic/Fast3D/debug/GfxDebugger.h"
 #include "graphic/Fast3D/Fast3dWindow.h"
 
 #ifdef _WIN32
@@ -85,7 +85,7 @@ void Context::Init(const std::vector<std::string>& otrFiles, const std::unordere
     InitConsole();
     InitWindow();
     InitAudio();
-    InitGfxDebugger();
+    InitGfxDebugger(0);
 }
 
 void Context::InitLogging() {
@@ -236,12 +236,16 @@ void Context::InitAudio() {
     GetAudio()->Init();
 }
 
-void Context::InitGfxDebugger() {
+void Context::InitGfxDebugger(uint32_t ucode) {
     if (GetGfxDebugger() != nullptr) {
         return;
     }
 
-    mGfxDebugger = std::make_shared<LUS::GfxDebugger>();
+    mGfxDebugger = std::make_shared<Fast::GfxDebugger>();
+
+#ifdef GFX_DEBUG_DISASSEMBLER
+    mGfxDebugger->SetUcode(ucode);
+#endif
 }
 
 void Context::InitConsole() {
@@ -298,7 +302,7 @@ std::shared_ptr<Audio> Context::GetAudio() {
     return mAudio;
 }
 
-std::shared_ptr<LUS::GfxDebugger> Context::GetGfxDebugger() {
+std::shared_ptr<Fast::GfxDebugger> Context::GetGfxDebugger() {
     return mGfxDebugger;
 }
 

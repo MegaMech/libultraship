@@ -1,11 +1,13 @@
 #pragma once
 
-#include <string>
 #include <vector>
+#ifdef GFX_DEBUG_DISASSEMBLER
+#include <gfxd.h>
+#endif
 
 union F3DGfx;
 
-namespace LUS {
+namespace Fast {
 
 class GfxDebugger {
   public:
@@ -24,6 +26,11 @@ class GfxDebugger {
     bool HasBreakPoint(const std::vector<const F3DGfx*>& path) const;
 
     void SetBreakPoint(const std::vector<const F3DGfx*>& bp);
+#ifdef GFX_DEBUG_DISASSEMBLER
+    gfxd_ucode_t mSelectedUcode;
+    void SetUcode(uint32_t);
+    gfxd_ucode_t GetUcode(void);
+#endif
 
   private:
     bool mIsDebugging = false;
@@ -32,4 +39,4 @@ class GfxDebugger {
     std::vector<const F3DGfx*> mBreakPoint = {};
 };
 
-} // namespace LUS
+} // namespace Fast

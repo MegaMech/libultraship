@@ -408,8 +408,7 @@ size_t ResourceManager::UnloadResource(const std::string& filePath) {
     return UnloadResource({ filePath, mDefaultCacheOwner, mDefaultCacheArchive });
 }
 
-bool ResourceManager::WriteResource(const ResourceIdentifier& identifier,
-                                    const std::vector<uint8_t>& data) {
+bool ResourceManager::WriteResource(const ResourceIdentifier& identifier, const std::vector<uint8_t>& data) {
     std::shared_ptr<Archive> archive = identifier.Parent;
 
     if (!archive) {
